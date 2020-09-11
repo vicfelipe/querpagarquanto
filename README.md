@@ -1,6 +1,6 @@
 # querpagarquanto
 
-A new Flutter project. Created by Slidy
+Aplicação Flutter criado para simular financiamentos utilizandos os sistemas SAC e PRICE.
 
 ## Getting Started
 
