@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 import 'sac_controller.dart';
 
@@ -16,7 +17,8 @@ class SacPage extends StatefulWidget {
 class _SacPageState extends ModularState<SacPage, SacController> {
   //use 'controller' variable to access controller
 
-  final valorController = TextEditingController();
+  final valorController = MoneyMaskedTextController(
+      decimalSeparator: ',', thousandSeparator: '.', leftSymbol: 'R\$');
   final tempoController = TextEditingController();
   final taxaController = TextEditingController();
 
@@ -71,7 +73,7 @@ class _SacPageState extends ModularState<SacPage, SacController> {
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.exposure),
                   hintText: 'Em qual taxa será calculado',
-                  labelText: 'Taxa de Juros',
+                  labelText: 'Taxa de Juros (%)',
                 ),
                 controller: taxaController,
                 keyboardType: TextInputType.number,
@@ -84,9 +86,10 @@ class _SacPageState extends ModularState<SacPage, SacController> {
                 children: [
                   FlatButton(
                     onPressed: () {
-                      var valor = double.parse(valorController.text);
+                      var valor = valorController.numberValue;
                       var tempo = int.parse(tempoController.text);
-                      var taxa = double.parse(taxaController.text);
+                      var taxa = double.parse(
+                          taxaController.text.replaceAll(',', '.'));
 
                       controller.setValores(valor, taxa, tempo);
                       showAlertDialog1(context, controller.pmt);
@@ -123,7 +126,7 @@ class _SacPageState extends ModularState<SacPage, SacController> {
   showAlertDialog1(BuildContext context, double resultado) {
     // configura o button
     Widget okButton = FlatButton(
-      child: Text("Mostrar Tabela"),
+      child: Text("Mostrar Simulação"),
       onPressed: () {
         Modular.to.pushNamed('/resultados', arguments: controller.listaValores);
         print(controller.listaValores);

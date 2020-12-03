@@ -23,7 +23,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
         elevation: 0,
       ),
       body: ListView(
-        children: <Widget>[
+        children: [
           // ListTile(
           //   title: Text("Simular parcelamento SAC"),
           //   subtitle: Text('Saiba o total pago ao fim do período.'),

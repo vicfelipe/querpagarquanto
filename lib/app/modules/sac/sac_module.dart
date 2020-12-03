@@ -1,6 +1,5 @@
 import 'sac_controller.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:dio/dio.dart';
 import 'sac_page.dart';
 
 class SacModule extends ChildModule {

@@ -39,6 +39,28 @@ mixin _$SacController on _SacControllerBase, Store {
   }
 
   @override
+  dynamic setValores(double valor, double taxa, int periodo) {
+    final _$actionInfo = _$_SacControllerBaseActionController.startAction(
+        name: '_SacControllerBase.setValores');
+    try {
+      return super.setValores(valor, taxa, periodo);
+    } finally {
+      _$_SacControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic geraLista() {
+    final _$actionInfo = _$_SacControllerBaseActionController.startAction(
+        name: '_SacControllerBase.geraLista');
+    try {
+      return super.geraLista();
+    } finally {
+      _$_SacControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 value: ${value}

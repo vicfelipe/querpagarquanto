@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 import 'price_controller.dart';
 
@@ -13,7 +14,8 @@ class PricePage extends StatefulWidget {
 }
 
 class _PricePageState extends ModularState<PricePage, PriceController> {
-  final valorController = TextEditingController();
+  final valorController = MoneyMaskedTextController(
+      decimalSeparator: ',', thousandSeparator: '.', leftSymbol: 'R\$');
   final tempoController = TextEditingController();
   final taxaController = TextEditingController();
 
@@ -66,7 +68,7 @@ class _PricePageState extends ModularState<PricePage, PriceController> {
                 decoration: const InputDecoration(
                   icon: const Icon(Icons.exposure),
                   hintText: 'Em qual taxa será calculado',
-                  labelText: 'Taxa de Juros',
+                  labelText: 'Taxa de Juros (%)',
                 ),
                 controller: taxaController,
                 keyboardType: TextInputType.number,
@@ -74,14 +76,49 @@ class _PricePageState extends ModularState<PricePage, PriceController> {
               Padding(
                 padding: EdgeInsets.all(5),
               ),
+              // Text(
+              //   'Qual o tipo de juros que você deseja aplicar?',
+              //   textAlign: TextAlign.center,
+              // ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Radio(
+              //       value: 'am',
+              //       groupValue: 'tipoJuros',
+              //       onChanged: (value) => print('am'),
+              //     ),
+              //     Text(
+              //       'Ao mês (a.m)',
+              //       style: new TextStyle(
+              //         fontSize: 14.0,
+              //       ),
+              //     ),
+              //     Radio(
+              //       value: 'aa',
+              //       groupValue: 'tipoJuros',
+              //       onChanged: (value) => print('aa'),
+              //     ),
+              //     Text(
+              //       'Ao ano (a.a)',
+              //       style: new TextStyle(
+              //         fontSize: 14.0,
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              Padding(
+                padding: EdgeInsets.all(10),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   FlatButton(
                     onPressed: () {
-                      var valor = double.parse(valorController.text);
+                      var valor = valorController.numberValue;
                       var tempo = int.parse(tempoController.text);
-                      var taxa = double.parse(taxaController.text);
+                      var taxa = double.parse(
+                          taxaController.text.replaceAll(',', '.'));
 
                       controller.setValores(valor, taxa, tempo);
                       showAlertDialog1(context, controller.pmt);
@@ -118,7 +155,7 @@ class _PricePageState extends ModularState<PricePage, PriceController> {
   showAlertDialog1(BuildContext context, double resultado) {
     // configura o button
     Widget okButton = FlatButton(
-      child: Text("Mostrar Tabela"),
+      child: Text("Mostrar Simulação"),
       onPressed: () {
         Modular.to.pushNamed('/resultados', arguments: controller.listaValores);
         print(controller.listaValores);
